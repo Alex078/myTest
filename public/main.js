@@ -10476,9 +10476,15 @@ __webpack_require__.r(__webpack_exports__);
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
   jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
-    url: "http://localhost:63342/myTest/questions.json",
+    url: "https://cors-anywhere.herokuapp.com/https://alex078.github.io/myTest/questions.json",
     type: "get",
+    contentType: false,
+    withCredentials: false,
+    processData: false,
+    cache: false,
+    crossDomain: true,
     success: function success(data) {
+      console.log(data);
       jquery__WEBPACK_IMPORTED_MODULE_0___default()('.js-testing').append(createTesting(data));
     }
   });
