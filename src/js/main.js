@@ -24,10 +24,9 @@ $(document).ready(function () {
                 $btnOpenTest.remove();
                 $testWrapper.append(createTesting(data));
                 $testWrapper.find('.testing__item').eq(0).addClass('active');
+                startCounter();
             }
         });
-
-        startCounter();
     });
 
     $('body').on('click', '.js-testing__item-btn', function () {
