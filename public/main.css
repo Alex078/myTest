@@ -1,0 +1,11 @@
+.testing__item {
+  opacity: 0.3;
+  pointer-events: none;
+  margin-bottom: 10px;
+}
+
+.testing__item.active {
+  opacity: 1;
+  pointer-events: all;
+}
+

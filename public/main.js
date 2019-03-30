@@ -10475,48 +10475,106 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
-  jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
-    url: "https://cors-anywhere.herokuapp.com/https://alex078.github.io/myTest/questions.json",
-    type: "get",
-    contentType: false,
-    withCredentials: false,
-    processData: false,
-    cache: false,
-    crossDomain: true,
-    success: function success(data) {
-      console.log(data);
-      jquery__WEBPACK_IMPORTED_MODULE_0___default()('.js-testing').append(createTesting(data));
-    }
+  var TIME_FOR_QUESTION = 60;
+  var counterId;
+  var counterValue = TIME_FOR_QUESTION;
+  var $counterHtmlValue = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.js-counter-value');
+  var $btnOpenTest = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.js-open-test-btn');
+  var $testWrapper = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.js-testing');
+  $btnOpenTest.click(function () {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
+      url: "https://cors-anywhere.herokuapp.com/https://alex078.github.io/myTest/questions.json",
+      type: "get",
+      contentType: false,
+      withCredentials: false,
+      processData: false,
+      cache: false,
+      crossDomain: true,
+      success: function success(data) {
+        $btnOpenTest.remove();
+        $testWrapper.append(createTesting(data));
+        $testWrapper.find('.testing__item').eq(0).addClass('active');
+      }
+    });
+    startCounter();
   });
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').on('click', '.js-testing__item-btn', function () {
+    nextQuestionByClick();
+  });
+
+  function createTesting(data) {
+    var htmlTest = [];
+
+    for (var i = 0; i < data.length; i++) {
+      htmlTest.push(getItemTesting(data[i]));
+    }
+
+    return htmlTest.join('');
+  }
+
+  function getItemTesting(item) {
+    var testItem = jquery__WEBPACK_IMPORTED_MODULE_0___default()("\n    <div class=\"testing__item\">\n        <div class=\"testing__question\" id=\"".concat(item.question.id, "\">").concat(item.question.value, "</div>\n        <div class=\"testing__answers\"></div>\n        <button class=\"testing__item-btn js-testing__item-btn\">\u0412\u0456\u0434\u043F\u043E\u0432\u0456\u0441\u0442\u0438</button>\n    </div>\n   "));
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(testItem).find('.testing__answers').append(getAnswersOfItemQuestion(item));
+    return testItem[0].outerHTML;
+  }
+
+  function getAnswersOfItemQuestion(item) {
+    var answers = [];
+
+    for (var i = 0; i < item.answers.length; i++) {
+      var itemAnswers = "\n        <div class=\"testing__answers-item\">\n            <input type=\"radio\" id=\"".concat(item.answers[i].id, "\" name=\"answer_").concat(item.question.id, "\">\n            <label for=\"").concat(item.answers[i].id, "\">").concat(item.answers[i].value, "</label>\n        </div>");
+      answers.push(itemAnswers);
+    }
+
+    return answers.join('');
+  }
+
+  function changeActiveQuestion() {
+    var isNextQuestion = false;
+    var $currentQuestion = $testWrapper.find('.testing__item.active');
+    var $nextQuestion = $currentQuestion.next('.testing__item');
+
+    if ($nextQuestion.length > 0) {
+      $currentQuestion.removeClass('active');
+      $nextQuestion.addClass('active');
+      isNextQuestion = true;
+      resetCounter();
+    } else {
+      $currentQuestion.removeClass('active');
+
+      if (counterId) {
+        clearInterval(counterId);
+      }
+    }
+
+    return isNextQuestion;
+  }
+
+  function nextQuestionByClick() {
+    var isNextQuestion = changeActiveQuestion();
+
+    if (isNextQuestion) {
+      resetCounter();
+    }
+  }
+
+  function resetCounter() {
+    clearInterval(counterId);
+    startCounter();
+  }
+
+  function startCounter() {
+    counterValue = TIME_FOR_QUESTION;
+    $counterHtmlValue.html(counterValue);
+    counterId = setInterval(function () {
+      if (counterValue == 0) {
+        changeActiveQuestion();
+      } else {
+        $counterHtmlValue.html(--counterValue);
+      }
+    }, 1000);
+  }
 });
-
-function createTesting(data) {
-  var htmlTest = [];
-
-  for (var i = 0; i < data.length; i++) {
-    htmlTest.push(getItemTesting(data[i]));
-    console.log(getItemTesting(data[i]));
-  }
-
-  return htmlTest.join('');
-}
-
-function getItemTesting(item) {
-  var testItem = jquery__WEBPACK_IMPORTED_MODULE_0___default()("\n    <div class=\"testing__item\">\n        <div class=\"testing__question\" id=\"".concat(item.question.id, "\">").concat(item.question.value, "</div>\n        <div class=\"testing__answers\"></div>\n    </div>\n   "));
-  jquery__WEBPACK_IMPORTED_MODULE_0___default()(testItem).find('.testing__answers').append(getAnswersOfItemQuestion(item));
-  return testItem.html();
-}
-
-function getAnswersOfItemQuestion(item) {
-  var answers = [];
-
-  for (var i = 0; i < item.answers.length; i++) {
-    var itemAnswers = "\n        <div class=\"testing__answers-item\">\n            <input type=\"radio\" id=\"".concat(item.answers[i].id, "\" name=\"answer_").concat(item.question.id, "\">\n            <label for=\"").concat(item.answers[i].id, "\">").concat(item.answers[i].value, "</label>\n        </div>");
-    answers.push(itemAnswers);
-  }
-
-  return answers.join('');
-}
 
 /***/ }),
 

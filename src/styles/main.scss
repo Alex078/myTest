@@ -1,3 +1,27 @@
 body {
 
 }
+
+.testing {
+  &__item {
+    opacity: 0.3;
+    pointer-events: none;
+    margin-bottom: 10px;
+  }
+
+  &__item.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  &__question {
+
+  }
+
+  &__answers {
+
+    &-item {
+
+    }
+  }
+}
