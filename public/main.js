@@ -10476,11 +10476,13 @@ __webpack_require__.r(__webpack_exports__);
 
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
   var TIME_FOR_QUESTION = 60;
+  var testAnswersObject = {};
   var counterId;
   var counterValue = TIME_FOR_QUESTION;
   var $counterHtmlValue = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.js-counter-value');
   var $btnOpenTest = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.js-open-test-btn');
   var $testWrapper = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.js-testing');
+  var $indicatorAnswersWrapper = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.js-indicator-answers');
   $btnOpenTest.click(function () {
     jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
       url: "https://cors-anywhere.herokuapp.com/https://alex078.github.io/myTest/questions.json",
@@ -10494,12 +10496,12 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
         $btnOpenTest.remove();
         $testWrapper.append(createTesting(data));
         $testWrapper.find('.testing__item').eq(0).addClass('active');
+        startCounter();
       }
     });
-    startCounter();
   });
   jquery__WEBPACK_IMPORTED_MODULE_0___default()('body').on('click', '.js-testing__item-btn', function () {
-    nextQuestionByClick();
+    nextQuestionByClick(jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).parent());
   });
 
   function createTesting(data) {
@@ -10507,13 +10509,15 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
 
     for (var i = 0; i < data.length; i++) {
       htmlTest.push(getItemTesting(data[i]));
+      testAnswersObject["".concat(data[i].question.id)] = data[i].trueAnswerId;
+      $indicatorAnswersWrapper.append("<div class=\"indicator-answers__item\" data-question=\"".concat(data[i].question.id, "\">").concat(i, "</div>"));
     }
 
     return htmlTest.join('');
   }
 
   function getItemTesting(item) {
-    var testItem = jquery__WEBPACK_IMPORTED_MODULE_0___default()("\n    <div class=\"testing__item\">\n        <div class=\"testing__question\" id=\"".concat(item.question.id, "\">").concat(item.question.value, "</div>\n        <div class=\"testing__answers\"></div>\n        <button class=\"testing__item-btn js-testing__item-btn\">\u0412\u0456\u0434\u043F\u043E\u0432\u0456\u0441\u0442\u0438</button>\n    </div>\n   "));
+    var testItem = jquery__WEBPACK_IMPORTED_MODULE_0___default()("\n            <div class=\"testing__item\">\n                <div class=\"testing__question\" id=\"".concat(item.question.id, "\">").concat(item.question.value, "</div>\n                <div class=\"testing__answers\"></div>\n                <button class=\"testing__item-btn js-testing__item-btn\">\u0412\u0456\u0434\u043F\u043E\u0432\u0456\u0441\u0442\u0438</button>\n            </div>\n        "));
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(testItem).find('.testing__answers').append(getAnswersOfItemQuestion(item));
     return testItem[0].outerHTML;
   }
@@ -10522,7 +10526,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
     var answers = [];
 
     for (var i = 0; i < item.answers.length; i++) {
-      var itemAnswers = "\n        <div class=\"testing__answers-item\">\n            <input type=\"radio\" id=\"".concat(item.answers[i].id, "\" name=\"answer_").concat(item.question.id, "\">\n            <label for=\"").concat(item.answers[i].id, "\">").concat(item.answers[i].value, "</label>\n        </div>");
+      var itemAnswers = "\n                <div class=\"testing__answers-item\">\n                    <input type=\"radio\" id=\"".concat(item.answers[i].id, "\" name=\"answer_").concat(item.question.id, "\" class=\"js-radio-answer\">\n                    <label for=\"").concat(item.answers[i].id, "\">").concat(item.answers[i].value, "</label>\n                </div>");
       answers.push(itemAnswers);
     }
 
@@ -10550,7 +10554,8 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
     return isNextQuestion;
   }
 
-  function nextQuestionByClick() {
+  function nextQuestionByClick(currentQuestion) {
+    updateIndicatorsOfAnswers(currentQuestion);
     var isNextQuestion = changeActiveQuestion();
 
     if (isNextQuestion) {
@@ -10573,6 +10578,24 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
         $counterHtmlValue.html(--counterValue);
       }
     }, 1000);
+  }
+
+  function updateIndicatorsOfAnswers(currentQuestion) {
+    var idAnswer;
+    var idQuestion = currentQuestion.find('.testing__question').attr('id');
+    var arrayInputs = currentQuestion.find('.js-radio-answer');
+
+    for (var i = 0; i < arrayInputs.length; i++) {
+      if (arrayInputs.eq(i).prop('checked')) {
+        idAnswer = arrayInputs.eq(i).attr('id');
+      }
+    }
+
+    if (testAnswersObject[idQuestion] == idAnswer) {
+      $indicatorAnswersWrapper.find(".indicator-answers__item[data-question=".concat(idQuestion, "]")).addClass('true');
+    } else {
+      $indicatorAnswersWrapper.find(".indicator-answers__item[data-question=".concat(idQuestion, "]")).addClass('false');
+    }
   }
 });
 

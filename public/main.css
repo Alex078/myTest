@@ -9,3 +9,22 @@
   pointer-events: all;
 }
 
+.indicator-answers__item {
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: lightgrey;
+  color: black;
+  margin: 5px;
+}
+
+.indicator-answers__item.true {
+  background-color: green;
+}
+
+.indicator-answers__item.false {
+  background-color: red;
+}
+

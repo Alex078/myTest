@@ -25,3 +25,24 @@ body {
     }
   }
 }
+
+.indicator-answers {
+  &__item {
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: lightgrey;
+    color: black;
+    margin: 5px;
+  }
+
+  &__item.true {
+    background-color: green;
+  }
+
+  &__item.false {
+    background-color: red;
+  }
+}
