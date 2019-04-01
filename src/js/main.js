@@ -1,7 +1,7 @@
 import $ from 'jquery'
 
 $(document).ready(function () {
-    const TIME_FOR_QUESTION = 10;
+    const TIME_FOR_QUESTION = 30;
 
     let testAnswersObject = {};
 
@@ -42,7 +42,7 @@ $(document).ready(function () {
         for (let i = 0; i < data.length; i++) {
             htmlTest.push(getItemTesting(data[i]));
             testAnswersObject[`${data[i].question.id}`] = data[i].trueAnswerId;
-            $indicatorAnswersWrapper.append(`<div class="indicator-answers__item" data-question="${data[i].question.id}">${i}</div>`)
+            $indicatorAnswersWrapper.append(`<div class="indicator-answers__item" data-question="${data[i].question.id}">${i+1}</div>`)
         }
 
         return htmlTest.join('');
