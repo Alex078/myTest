@@ -5,7 +5,7 @@ body {
 .header {
   background-color: #41695b;
   margin-bottom: 20px;
-  height: 50px;
+  min-height: 50px;
   position: fixed;
   left: 0;
   top: 0;
@@ -15,7 +15,7 @@ body {
 
 .testing-wrapper {
   width: 100%;
-  padding-top: 100px;
+  padding: 100px 15px 0 15px;
 
   @media only screen and (min-width: 768px) {
     max-width: 600px;
@@ -152,7 +152,6 @@ body {
 }
 
 .indicator-answers {
-  height: 50px;
   display: flex;
   align-items: center;
   padding: 0 50px 0 10px;
@@ -166,7 +165,7 @@ body {
     justify-content: center;
     background-color: white;
     color: black;
-    margin: 5px;
+    margin: 10px;
     border-radius: 2px;
     border: 1px solid transparent;
     font-size: 16px;
@@ -191,21 +190,21 @@ body {
   }
 }
 
-.popup{
+.popup {
   position: fixed;
   left: 0;
   top: 0;
   bottom: 0;
   right: 0;
 
-  &-overlay{
+  &-overlay {
     z-index: 100;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     height: 100%;
     width: 100%;
   }
 
-  &__wrapper{
+  &__wrapper {
     width: 100%;
     max-width: 320px;
     transform: translate(-50%, -50%);
@@ -219,18 +218,18 @@ body {
     text-align: center;
   }
 
-  &__title{
+  &__title {
     font-size: 20px;
     margin-bottom: 10px;
     font-weight: bold;
   }
 
-  &__message{
+  &__message {
     font-size: 16px;
     margin-bottom: 20px;
   }
 
-  &__btn{
+  &__btn {
     display: inline-block;
     padding: 10px 20px;
     background-color: cadetblue;

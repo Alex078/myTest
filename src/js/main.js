@@ -87,13 +87,17 @@ $(document).ready(function () {
             isNextQuestion = true;
             resetCounter();
 
+            $('html, body').animate({
+                scrollTop: $nextQuestion.offset().top - 60
+            }, 200);
+
         } else {
             $currentQuestion.removeClass('active');
             if (counterId) {
                 clearInterval(counterId);
             }
 
-            calcResult();
+            showResult();
         }
 
         return isNextQuestion;
@@ -148,7 +152,7 @@ $(document).ready(function () {
         }
     }
 
-    function calcResult() {
+    function showResult() {
         let trueAnswers = $('body').find('.indicator-answers__item.true');
         let countTrueAnswers = trueAnswers ? trueAnswers.length : 0;
 
