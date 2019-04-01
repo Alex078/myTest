@@ -42,7 +42,7 @@ $(document).ready(function () {
         for (let i = 0; i < data.length; i++) {
             htmlTest.push(getItemTesting(data[i]));
             testAnswersObject[`${data[i].question.id}`] = data[i].trueAnswerId;
-            $indicatorAnswersWrapper.append(`<div class="indicator-answers__item" data-question="${data[i].question.id}">${i+1}</div>`)
+            $indicatorAnswersWrapper.append(`<div class="indicator-answers__item" data-question="${data[i].question.id}">${i + 1}</div>`)
         }
 
         return htmlTest.join('');
@@ -92,6 +92,8 @@ $(document).ready(function () {
             if (counterId) {
                 clearInterval(counterId);
             }
+
+            calcResult();
         }
 
         return isNextQuestion;
@@ -145,4 +147,23 @@ $(document).ready(function () {
             $indicatorAnswersWrapper.find(`.indicator-answers__item[data-question=${idQuestion}]`).addClass('late');
         }
     }
+
+    function calcResult() {
+        let trueAnswers = $('body').find('.indicator-answers__item.true');
+        let countTrueAnswers = trueAnswers ? trueAnswers.length : 0;
+
+        let popup = `
+                <div class="popup">
+                    <div class="popup-overlay"></div>
+                    <div class="popup__wrapper">
+                        <div class="popup__title">Вітаємо з закінченням тесту!</div>
+                        <div class="popup__message">Ваша кількість набраних балів: ${countTrueAnswers}</div>
+                        <a href="" class="popup__btn">Пройти тест ще раз</a>
+                    </div>
+                </div>`;
+
+        $('body').append(popup);
+
+    }
+
 });
