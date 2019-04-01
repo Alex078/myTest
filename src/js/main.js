@@ -1,7 +1,7 @@
 import $ from 'jquery'
 
 $(document).ready(function () {
-    const TIME_FOR_QUESTION = 60;
+    const TIME_FOR_QUESTION = 10;
 
     let testAnswersObject = {};
 
@@ -12,23 +12,6 @@ $(document).ready(function () {
     const $btnOpenTest = $('.js-open-test-btn');
     const $testWrapper = $('.js-testing');
     const $indicatorAnswersWrapper = $('.js-indicator-answers');
-
-    $.ajax({
-        url: "https://cors-anywhere.herokuapp.com/https://alex078.github.io/myTest/questions.json",
-        type: "get",
-        contentType: false,
-        withCredentials: false,
-        processData: false,
-        cache: false,
-        crossDomain: true,
-
-        success: function (data) {
-            $btnOpenTest.remove();
-            $testWrapper.append(createTesting(data));
-            $testWrapper.find('.testing__item').eq(0).addClass('active');
-            startCounter();
-        }
-    });
 
     $btnOpenTest.click(function () {
         $.ajax({
@@ -96,6 +79,8 @@ $(document).ready(function () {
         let $currentQuestion = $testWrapper.find('.testing__item.active');
         let $nextQuestion = $currentQuestion.next('.testing__item');
 
+        updateIndicatorsOfAnswers($currentQuestion);
+
         if ($nextQuestion.length > 0) {
             $currentQuestion.removeClass('active');
             $nextQuestion.addClass('active');
@@ -151,10 +136,13 @@ $(document).ready(function () {
             }
         }
 
-        if (testAnswersObject[idQuestion] == idAnswer) {
+        if (idAnswer && testAnswersObject[idQuestion] == idAnswer) {
             $indicatorAnswersWrapper.find(`.indicator-answers__item[data-question=${idQuestion}]`).addClass('true');
-        } else {
+        } else if (idAnswer && testAnswersObject[idQuestion] != idAnswer) {
             $indicatorAnswersWrapper.find(`.indicator-answers__item[data-question=${idQuestion}]`).addClass('false');
+
+        } else {
+            $indicatorAnswersWrapper.find(`.indicator-answers__item[data-question=${idQuestion}]`).addClass('late');
         }
     }
 });
