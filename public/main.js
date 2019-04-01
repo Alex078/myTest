@@ -10483,6 +10483,21 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
   var $btnOpenTest = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.js-open-test-btn');
   var $testWrapper = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.js-testing');
   var $indicatorAnswersWrapper = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.js-indicator-answers');
+  jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
+    url: "https://cors-anywhere.herokuapp.com/https://alex078.github.io/myTest/questions.json",
+    type: "get",
+    contentType: false,
+    withCredentials: false,
+    processData: false,
+    cache: false,
+    crossDomain: true,
+    success: function success(data) {
+      $btnOpenTest.remove();
+      $testWrapper.append(createTesting(data));
+      $testWrapper.find('.testing__item').eq(0).addClass('active');
+      startCounter();
+    }
+  });
   $btnOpenTest.click(function () {
     jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
       url: "https://cors-anywhere.herokuapp.com/https://alex078.github.io/myTest/questions.json",
@@ -10619,8 +10634,8 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Олег Якимчук\Desktop\myTest\src\js\main.js */"./src/js/main.js");
-module.exports = __webpack_require__(/*! C:\Users\Олег Якимчук\Desktop\myTest\src\styles\main.scss */"./src/styles/main.scss");
+__webpack_require__(/*! /home/bookimed/projekts/myTest/src/js/main.js */"./src/js/main.js");
+module.exports = __webpack_require__(/*! /home/bookimed/projekts/myTest/src/styles/main.scss */"./src/styles/main.scss");
 
 
 /***/ })

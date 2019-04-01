@@ -13,6 +13,23 @@ $(document).ready(function () {
     const $testWrapper = $('.js-testing');
     const $indicatorAnswersWrapper = $('.js-indicator-answers');
 
+    $.ajax({
+        url: "https://cors-anywhere.herokuapp.com/https://alex078.github.io/myTest/questions.json",
+        type: "get",
+        contentType: false,
+        withCredentials: false,
+        processData: false,
+        cache: false,
+        crossDomain: true,
+
+        success: function (data) {
+            $btnOpenTest.remove();
+            $testWrapper.append(createTesting(data));
+            $testWrapper.find('.testing__item').eq(0).addClass('active');
+            startCounter();
+        }
+    });
+
     $btnOpenTest.click(function () {
         $.ajax({
             url: "https://cors-anywhere.herokuapp.com/https://alex078.github.io/myTest/questions.json",
